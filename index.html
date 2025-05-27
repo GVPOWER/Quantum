@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="quantum">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum CBSE Class 9 Portal</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            /* Quantum Color Palette */
+            --quantum-primary: #00f7ff;
+            --quantum-secondary: #ff00e4;
+            --quantum-accent: #00ff87;
+            --quantum-dark: #0a0a1a;
+            --quantum-darker: #050510;
+            --quantum-bg: radial-gradient(ellipse at bottom, var(--quantum-darker) 0%, var(--quantum-dark) 100%);
+
+            /* Neon Glow Effects */
+            --glow-primary: 0 0 10px var(--quantum-primary), 0 0 20px rgba(0, 247, 255, 0.3);
+            --glow-secondary: 0 0 10px var(--quantum-secondary), 0 0 20px rgba(255, 0, 228, 0.3);
+            --glow-accent: 0 0 10px var(--quantum-accent), 0 0 20px rgba(0, 255, 135, 0.3);
+
+            /* Futuristic Fonts */
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--quantum-bg);
+            color: white;
+            font-family: var(--font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        /* ========== Quantum Navigation ========== */
+        .quantum-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 3rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 26, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        .nav-logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--quantum-primary), var(--quantum-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--glow-primary);
+            letter-spacing: 2px;
+        }
+
+        .nav-items {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-item {
+            position: relative;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--quantum-primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: white;
+            text-shadow: var(--glow-primary);
+        }
+
+        .nav-item:hover::before {
+            width: 100%;
+        }
+
+        .nav-item.active {
+            color: var(--quantum-primary);
+            text-shadow: var(--glow-primary);
+        }
+
+        .nav-item.active::before {
+            width: 100%;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--quantum-primary), var(--quantum-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--glow-primary);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: var(--glow-secondary);
+        }
+
+        /* ========== Main Content ========== */
+        .quantum-container {
+            padding: 8rem 3rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .portal-title {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, var(--quantum-primary), var(--quantum-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+            letter-spacing: 3px;
+        }
+
+        .portal-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ========== Hologram Grid ========== */
+        .hologram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .hologram-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hologram-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right,
+                    rgba(0, 247, 255, 0.1) 0%,
+                    rgba(255, 0, 228, 0.05) 50%,
+                    rgba(0, 247, 255, 0.1) 100%);
+            transform: rotate(30deg);
+            z-index: -1;
+            animation: hologramScan 6s linear infinite;
+        }
+
+        @keyframes hologramScan {
+            0% {
+                transform: translateY(-100%) rotate(30deg);
+            }
+
+            100% {
+                transform: translateY(100%) rotate(30deg);
+            }
+        }
+
+        .hologram-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: var(--glow-primary);
+            border-color: rgba(0, 247, 255, 0.3);
+        }
+
+        .hologram-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--quantum-primary);
+            letter-spacing: 1px;
+        }
+
+        .hologram-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: var(--glow-primary);
+        }
+
+        .hologram-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* ========== Quantum Buttons ========== */
+        .quantum-btn {
+            background: linear-gradient(135deg, var(--quantum-primary), var(--quantum-accent));
+            border: none;
+            color: var(--quantum-dark);
+            padding: 0.8rem 2rem;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: var(--glow-accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .quantum-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--quantum-accent), var(--quantum-primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .quantum-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.5);
+        }
+
+        .quantum-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* ========== 3D Canvas ========== */
+        .quantum-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        /* ========== Neural Interface ========== */
+        .neural-interface {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 4rem;
+            box-shadow: var(--glow-primary);
+            transition: all 0.5s ease;
+        }
+
+        .neural-interface:hover {
+            border-color: rgba(0, 247, 255, 0.5);
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
+        }
+
+        .neural-title {
+            font-family: var(--font-heading);
+            color: var(--quantum-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        .neural-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 100%;
+            color: white;
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            min-height: 120px;
+            outline: none;
+        }
+
+        .neural-input:focus {
+            border-color: var(--quantum-primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* ========== Responsive Design ========== */
+        @media (max-width: 768px) {
+            .quantum-nav {
+                padding: 1rem;
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-items {
+                gap: 1rem;
+            }
+
+            .portal-title {
+                font-size: 2.5rem;
+            }
+
+            .portal-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .quantum-container {
+                padding: 7rem 1.5rem 1.5rem;
+            }
+
+            .hologram-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Quantum Navigation -->
+    <nav class="quantum-nav">
+        <div class="nav-logo">⚛️ QUANTUM CBSE</div>
+        <div class="nav-items">
+            <div class="nav-item active" data-subject="math">MATHEMATICS</div>
+            <div class="nav-item" data-subject="science">SCIENCE</div>
+            <div class="nav-item" data-subject="english">ENGLISH</div>
+            <div class="nav-item" data-subject="social">SOCIAL SCIENCE</div>
+            <div class="nav-item" data-subject="hindi">HINDI</div>
+        </div>
+        <div class="user-avatar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+        </div>
+    </nav>
+
+    <!-- WebGL Background -->
+    <canvas class="quantum-canvas" id="quantum-bg"></canvas>
+
+    <!-- Main Content -->
+    <div class="quantum-container">
+        <header class="portal-header">
+            <h1 class="portal-title">CLASS 9 QUANTUM LEARNING PORTAL</h1>
+            <p class="portal-subtitle">
+                Harness the power of quantum learning with AI-enhanced NCERT content,
+                3D interactive models, and adaptive test simulations for CBSE Class 9.
+            </p>
+        </header>
+
+        <!-- Hologram Grid -->
+        <div class="hologram-grid">
+            <div class="hologram-card">
+                <div class="hologram-icon">🧠</div>
+                <h3>AI TUTOR</h3>
+                <p>24/7 personalized learning assistant with voice interaction and concept visualization</p>
+                <button class="quantum-btn">ACTIVATE TUTOR</button>
+            </div>
+
+            <div class="hologram-card">
+                <div class="hologram-icon">🔬</div>
+                <h3>3D VIRTUAL LAB</h3>
+                <p>Interactive science experiments with molecular-level visualization</p>
+                <button class="quantum-btn">ENTER LAB</button>
+            </div>
+
+            <div class="hologram-card">
+                <div class="hologram-icon">📊</div>
+                <h3>PYQ SIMULATOR</h3>
+                <p>Adaptive test engine with 10 years of previous year questions</p>
+                <button class="quantum-btn">START TEST</button>
+            </div>
+        </div>
+
+        <!-- Neural Interface -->
+        <div class="neural-interface">
+            <h3 class="neural-title">QUANTUM AI ASSISTANT</h3>
+            <div class="neural-input" contenteditable="true"
+                data-placeholder="Ask anything about CBSE Class 9 syllabus..."></div>
+            <div style="display: flex; justify-content: flex-end;">
+                <button class="quantum-btn">SUBMIT QUERY</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js for 3D Background -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Initialize Quantum Background
+        function initQuantumBackground() {
+            const canvas = document.getElementById('quantum-bg');
+            const renderer = new THREE.WebGLRenderer({
+                canvas,
+                antialias: true,
+                alpha: true
+            });
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            // Create quantum particles
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particleCount = 5000;
+
+            const posArray = new Float32Array(particleCount * 3);
+            const colorArray = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                posArray[i] = (Math.random() - 0.5) * 10;
+                colorArray[i] = Math.random();
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.05,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.8,
+                blending: THREE.AdditiveBlending
+            });
+
+            const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            scene.add(particleMesh);
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                particleMesh.rotation.x += 0.0005;
+                particleMesh.rotation.y += 0.001;
+
+                renderer.render(scene, camera);
+            }
+
+            // Handle resize
+            function onWindowResize() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            window.addEventListener('resize', onWindowResize);
+
+            // Start animation
+            animate();
+            onWindowResize();
+        }
+
+        // Initialize everything when DOM loads
+        document.addEventListener('DOMContentLoaded', () => {
+            initQuantumBackground();
+
+            // Nav item interactions
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    // Add futuristic sound effect
+                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3');
+                    audio.volume = 0.3;
+                    audio.play();
+                });
+            });
+
+            // Quantum button effects
+            const quantumBtns = document.querySelectorAll('.quantum-btn');
+            quantumBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.transform = 'translateY(-3px)';
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Neural input placeholder
+            const neuralInput = document.querySelector('.neural-input');
+            neuralInput.addEventListener('focus', function () {
+                if (this.textContent === '') {
+                    this.dataset.placeholder = '';
+                }
+            });
+
+            neuralInput.addEventListener('blur', function () {
+                if (this.textContent === '') {
+                    this.dataset.placeholder = 'Ask anything about CBSE Class 9 syllabus...';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
