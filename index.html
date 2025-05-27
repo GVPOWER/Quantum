@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum-The Portal</title>
+    <title>Quantum CBSE Class 9 Portal</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
             /* Quantum Color Palette */
@@ -283,60 +284,144 @@
             opacity: 1;
         }
 
-        /* ========== 3D Canvas ========== */
-        .quantum-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        /* ========== Neural Interface ========== */
-        .neural-interface {
+        /* ========== Content Sections ========== */
+        .content-section {
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 247, 255, 0.2);
             border-radius: 15px;
             padding: 2rem;
-            margin-top: 4rem;
+            margin: 2rem 0;
             box-shadow: var(--glow-primary);
-            transition: all 0.5s ease;
         }
 
-        .neural-interface:hover {
-            border-color: rgba(0, 247, 255, 0.5);
-            box-shadow: 0 0 30px rgba(0, 247, 255, 0.2);
-        }
-
-        .neural-title {
+        .section-title {
             font-family: var(--font-heading);
             color: var(--quantum-primary);
             margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             letter-spacing: 1px;
         }
 
-        .neural-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 247, 255, 0.3);
-            border-radius: 10px;
-            padding: 1.5rem;
-            width: 100%;
-            color: white;
-            font-family: var(--font-body);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s ease;
-            min-height: 120px;
-            outline: none;
+        /* PYQ Grid */
+        .pyq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
         }
 
-        .neural-input:focus {
-            border-color: var(--quantum-primary);
+        .pyq-card {
+            background: rgba(0, 247, 255, 0.05);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .pyq-card:hover {
+            transform: translateY(-5px);
             box-shadow: var(--glow-primary);
+            border-color: var(--quantum-primary);
+        }
+
+        .pyq-card h4 {
+            color: var(--quantum-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pyq-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Notes Player */
+        .audio-player {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .player-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 247, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .player-btn:hover {
+            background: var(--quantum-primary);
+            color: var(--quantum-dark);
+        }
+
+        /* Quiz Container */
+        .quiz-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+        }
+
+        .quiz-option {
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 5px;
+            padding: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background: rgba(0, 247, 255, 0.2);
+        }
+
+        .quiz-option.correct {
+            background: rgba(0, 255, 135, 0.2);
+            border-color: var(--quantum-accent);
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(255, 0, 100, 0.2);
+            border-color: #ff0064;
+        }
+
+        /* Worksheet Generator */
+        .worksheet-container {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+
+        .worksheet-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
         }
 
         /* ========== Responsive Design ========== */
@@ -349,6 +434,8 @@
 
             .nav-items {
                 gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .portal-title {
@@ -366,6 +453,10 @@
             .hologram-grid {
                 grid-template-columns: 1fr;
             }
+
+            .pyq-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -375,187 +466,468 @@
     <nav class="quantum-nav">
         <div class="nav-logo">⚛️ QUANTUM CBSE</div>
         <div class="nav-items">
-            <div class="nav-item active" data-subject="math">MATHEMATICS</div>
-            <div class="nav-item" data-subject="science">SCIENCE</div>
-            <div class="nav-item" data-subject="english">ENGLISH</div>
-            <div class="nav-item" data-subject="social">SOCIAL SCIENCE</div>
-            <div class="nav-item" data-subject="hindi">HINDI</div>
+            <div class="nav-item active" data-section="dashboard">DASHBOARD</div>
+            <div class="nav-item" data-section="pyqs">PYQs</div>
+            <div class="nav-item" data-section="notes">NOTES</div>
+            <div class="nav-item" data-section="quizzes">QUIZZES</div>
+            <div class="nav-item" data-section="worksheets">WORKSHEETS</div>
         </div>
         <div class="user-avatar">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-            </svg>
+            <i class="fas fa-user-astronaut"></i>
         </div>
     </nav>
 
-    <!-- WebGL Background -->
-    <canvas class="quantum-canvas" id="quantum-bg"></canvas>
-
     <!-- Main Content -->
     <div class="quantum-container">
-        <header class="portal-header">
-            <h1 class="portal-title">CLASS 9 QUANTUM LEARNING PORTAL</h1>
-            <p class="portal-subtitle">
-                Harness the power of quantum learning with AI-enhanced NCERT content,
-                3D interactive models, and adaptive test simulations for CBSE Class 9.
-            </p>
-        </header>
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section">
+            <header class="portal-header">
+                <h1 class="portal-title">CLASS 9 QUANTUM LEARNING PORTAL</h1>
+                <p class="portal-subtitle">
+                    Your all-in-one platform for CBSE Class 9 preparation with previous year questions,
+                    interactive notes, quizzes, and AI-generated worksheets.
+                </p>
+            </header>
 
-        <!-- Hologram Grid -->
-        <div class="hologram-grid">
-            <div class="hologram-card">
-                <div class="hologram-icon">🧠</div>
-                <h3>AI TUTOR</h3>
-                <p>24/7 personalized learning assistant with voice interaction and concept visualization</p>
-                <button class="quantum-btn">ACTIVATE TUTOR</button>
+            <!-- Hologram Grid -->
+            <div class="hologram-grid">
+                <div class="hologram-card" id="pyqs-card">
+                    <div class="hologram-icon"><i class="fas fa-file-alt"></i></div>
+                    <h3>PYQ ARCHIVE</h3>
+                    <p>Access 10+ years of previous year questions with solutions</p>
+                    <button class="quantum-btn" onclick="showSection('pyqs')">EXPLORE PYQs</button>
+                </div>
+
+                <div class="hologram-card" id="notes-card">
+                    <div class="hologram-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>SMART NOTES</h3>
+                    <p>Audio-visual notes covering all NCERT chapters</p>
+                    <button class="quantum-btn" onclick="showSection('notes')">VIEW NOTES</button>
+                </div>
+
+                <div class="hologram-card" id="quiz-card">
+                    <div class="hologram-icon"><i class="fas fa-question-circle"></i></div>
+                    <h3>ADAPTIVE QUIZZES</h3>
+                    <p>Test your knowledge with AI-generated quizzes</p>
+                    <button class="quantum-btn" onclick="showSection('quizzes')">TAKE QUIZ</button>
+                </div>
+
+                <div class="hologram-card" id="worksheet-card">
+                    <div class="hologram-icon"><i class="fas fa-tasks"></i></div>
+                    <h3>WORKSHEET GENERATOR</h3>
+                    <p>Generate unlimited practice worksheets</p>
+                    <button class="quantum-btn" onclick="showSection('worksheets')">CREATE WORKSHEET</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PYQs Section -->
+        <section id="pyqs-section" class="content-section" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-file-alt"></i> PREVIOUS YEAR QUESTIONS</h2>
+            <div class="pyq-grid" id="pyq-container">
+                <!-- PYQ cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Notes Section -->
+        <section id="notes-section" class="content-section" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-book-open"></i> INTERACTIVE NOTES</h2>
+
+            <div class="audio-player">
+                <h4>Mathematics - Chapter 1: Number Systems</h4>
+                <p>Audio explanation of real numbers and their properties</p>
+                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
+                <div class="player-controls">
+                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
+                        <i class="fas fa-pause"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
+                    </div>
+                </div>
             </div>
 
-            <div class="hologram-card">
-                <div class="hologram-icon">🔬</div>
-                <h3>3D VIRTUAL LAB</h3>
-                <p>Interactive science experiments with molecular-level visualization</p>
-                <button class="quantum-btn">ENTER LAB</button>
+            <div class="video-container" style="margin-top: 2rem;">
+                <h4>Science - Chapter 2: Matter Around Us</h4>
+                <p>Video explanation of states of matter</p>
+                <div class="video-wrapper"
+                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+                </div>
             </div>
 
-            <div class="hologram-card">
-                <div class="hologram-icon">📊</div>
-                <h3>PYQ SIMULATOR</h3>
-                <p>Adaptive test engine with 10 years of previous year questions</p>
-                <button class="quantum-btn">START TEST</button>
+            <div style="margin-top: 2rem;">
+                <h4>Download PDF Notes</h4>
+                <div class="pyq-grid">
+                    <div class="pyq-card">
+                        <h4>Mathematics Complete Notes</h4>
+                        <p>All chapters in one PDF</p>
+                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    <div class="pyq-card">
+                        <h4>Science Diagrams</h4>
+                        <p>Important diagrams for Biology</p>
+                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Neural Interface -->
-        <div class="neural-interface">
-            <h3 class="neural-title">QUANTUM AI ASSISTANT</h3>
-            <div class="neural-input" contenteditable="true"
-                data-placeholder="Ask anything about CBSE Class 9 syllabus..."></div>
-            <div style="display: flex; justify-content: flex-end;">
-                <button class="quantum-btn">SUBMIT QUERY</button>
+        <!-- Quizzes Section -->
+        <section id="quizzes-section" class="content-section" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-question-circle"></i> ADAPTIVE QUIZZES</h2>
+
+            <div class="quiz-container" id="quiz-container">
+                <!-- Quiz questions will be dynamically inserted here -->
             </div>
-        </div>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <button class="quantum-btn" id="generate-quiz-btn">
+                    <i class="fas fa-sync-alt"></i> Generate New Quiz
+                </button>
+            </div>
+        </section>
+
+        <!-- Worksheets Section -->
+        <section id="worksheets-section" class="content-section" style="display: none;">
+            <h2 class="section-title"><i class="fas fa-tasks"></i> WORKSHEET GENERATOR</h2>
+
+            <div class="worksheet-container">
+                <div class="worksheet-controls">
+                    <select id="worksheet-subject" class="quantum-btn"
+                        style="padding: 0.8rem 1rem; background: rgba(0, 247, 255, 0.1);">
+                        <option value="math">Mathematics</option>
+                        <option value="science">Science</option>
+                        <option value="english">English</option>
+                    </select>
+
+                    <select id="worksheet-chapter" class="quantum-btn"
+                        style="padding: 0.8rem 1rem; background: rgba(0, 247, 255, 0.1);">
+                        <option value="1">Chapter 1</option>
+                        <option value="2">Chapter 2</option>
+                        <option value="3">Chapter 3</option>
+                    </select>
+
+                    <select id="worksheet-difficulty" class="quantum-btn"
+                        style="padding: 0.8rem 1rem; background: rgba(0, 247, 255, 0.1);">
+                        <option value="easy">Easy</option>
+                        <option value="medium">Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+
+                    <button class="quantum-btn" id="generate-worksheet-btn">
+                        <i class="fas fa-magic"></i> Generate Worksheet
+                    </button>
+                </div>
+
+                <div id="worksheet-output" style="margin-top: 2rem;">
+                    <!-- Generated worksheet will appear here -->
+                    <div style="text-align: center; color: rgba(255,255,255,0.5);">
+                        <i class="fas fa-robot" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                        <p>Select options and generate your custom worksheet</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <button class="quantum-btn" id="download-worksheet-btn" style="display: none;">
+                        <i class="fas fa-file-pdf"></i> Download as PDF
+                    </button>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <!-- Three.js for 3D Background -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Initialize Quantum Background
-        function initQuantumBackground() {
-            const canvas = document.getElementById('quantum-bg');
-            const renderer = new THREE.WebGLRenderer({
-                canvas,
-                antialias: true,
-                alpha: true
+        // Sample PYQ Data (in real app, fetch from API)
+        const pyqData = [
+            {
+                subject: "Mathematics",
+                year: "2023",
+                title: "Mathematics Board Paper 2023",
+                downloadUrl: "https://example.com/pyqs/math-2023.pdf",
+                solutionsUrl: "https://example.com/solutions/math-2023.pdf"
+            },
+            {
+                subject: "Science",
+                year: "2023",
+                title: "Science Board Paper 2023",
+                downloadUrl: "https://example.com/pyqs/science-2023.pdf",
+                solutionsUrl: "https://example.com/solutions/science-2023.pdf"
+            },
+            {
+                subject: "Mathematics",
+                year: "2022",
+                title: "Mathematics Board Paper 2022",
+                downloadUrl: "https://example.com/pyqs/math-2022.pdf",
+                solutionsUrl: "https://example.com/solutions/math-2022.pdf"
+            },
+            {
+                subject: "Science",
+                year: "2022",
+                title: "Science Board Paper 2022",
+                downloadUrl: "https://example.com/pyqs/science-2022.pdf",
+                solutionsUrl: "https://example.com/solutions/science-2022.pdf"
+            },
+            {
+                subject: "Mathematics",
+                year: "2021",
+                title: "Mathematics Board Paper 2021",
+                downloadUrl: "https://example.com/pyqs/math-2021.pdf",
+                solutionsUrl: "https://example.com/solutions/math-2021.pdf"
+            },
+            {
+                subject: "Science",
+                year: "2021",
+                title: "Science Board Paper 2021",
+                downloadUrl: "https://example.com/pyqs/science-2021.pdf",
+                solutionsUrl: "https://example.com/solutions/science-2021.pdf"
+            }
+        ];
+
+        // Sample Quiz Questions (in real app, fetch from API)
+        const quizQuestions = [
+            {
+                question: "What is the chemical formula of water?",
+                options: ["H2O", "CO2", "NaCl", "O2"],
+                answer: 0,
+                explanation: "Water is composed of two hydrogen atoms and one oxygen atom, hence H₂O."
+            },
+            {
+                question: "Which of these is a prime number?",
+                options: ["4", "9", "11", "15"],
+                answer: 2,
+                explanation: "11 is only divisible by 1 and itself."
+            },
+            {
+                question: "Who wrote 'Romeo and Juliet'?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                answer: 1,
+                explanation: "William Shakespeare wrote this famous tragedy in the late 16th century."
+            }
+        ];
+
+        // Sample Worksheet Questions (in real app, generate dynamically)
+        const worksheetQuestions = {
+            math: {
+                easy: [
+                    "Solve for x: 2x + 5 = 15",
+                    "What is the value of π (pi) to two decimal places?",
+                    "Calculate the area of a square with side length 5cm"
+                ],
+                medium: [
+                    "Factorize: x² - 5x + 6",
+                    "Find the value of y when x = 3 in the equation y = 2x² - 4x + 1",
+                    "Calculate the volume of a cube with side length 7cm"
+                ],
+                hard: [
+                    "Prove that the sum of angles in a triangle is 180 degrees",
+                    "Solve the quadratic equation: 3x² - 7x + 2 = 0",
+                    "Find the value of √(17² - 8²)"
+                ]
+            },
+            science: {
+                easy: [
+                    "Name the process by which plants make their own food",
+                    "Which gas do plants absorb during photosynthesis?",
+                    "What is the chemical symbol for gold?"
+                ],
+                medium: [
+                    "Explain the difference between elements and compounds",
+                    "Describe the structure of an atom",
+                    "What are the three states of matter?"
+                ],
+                hard: [
+                    "Explain Newton's First Law of Motion with examples",
+                    "Describe the process of cellular respiration",
+                    "What is the difference between series and parallel circuits?"
+                ]
+            },
+            english: {
+                easy: [
+                    "Identify the noun in this sentence: 'The quick brown fox jumps over the lazy dog'",
+                    "What is the past tense of the verb 'run'?",
+                    "Give an antonym for the word 'happy'"
+                ],
+                medium: [
+                    "Write a paragraph (5-6 sentences) about your favorite book",
+                    "Identify and correct the error: 'She don't like apples'",
+                    "Change the following sentence to passive voice: 'The cat chased the mouse'"
+                ],
+                hard: [
+                    "Write an essay (200 words) on the importance of education",
+                    "Analyze the metaphor in this line: 'All the world's a stage'",
+                    "Write a dialogue between two friends discussing their future plans"
+                ]
+            }
+        };
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function () {
+            // Load PYQs
+            loadPYQs();
+
+            // Set up navigation
+            setupNavigation();
+
+            // Set up quiz generator
+            document.getElementById('generate-quiz-btn').addEventListener('click', generateNewQuiz);
+
+            // Set up worksheet generator
+            document.getElementById('generate-worksheet-btn').addEventListener('click', generateWorksheet);
+            document.getElementById('download-worksheet-btn').addEventListener('click', downloadWorksheet);
+
+            // Generate initial quiz
+            generateNewQuiz();
+        });
+
+        // Function to load PYQs
+        function loadPYQs() {
+            const pyqContainer = document.getElementById('pyq-container');
+            pyqContainer.innerHTML = '';
+
+            pyqData.forEach(pyq => {
+                const pyqCard = document.createElement('div');
+                pyqCard.className = 'pyq-card';
+                pyqCard.innerHTML = `
+                    <h4>${pyq.subject} (${pyq.year})</h4>
+                    <p>${pyq.title}</p>
+                    <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;" 
+                                onclick="window.open('${pyq.downloadUrl}', '_blank')">
+                            <i class="fas fa-download"></i> Paper
+                        </button>
+                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem; background: rgba(0, 247, 255, 0.1);" 
+                                onclick="window.open('${pyq.solutionsUrl}', '_blank')">
+                            <i class="fas fa-lightbulb"></i> Solutions
+                        </button>
+                    </div>
+                `;
+                pyqContainer.appendChild(pyqCard);
             });
-
-            const scene = new THREE.Scene();
-            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.z = 5;
-
-            // Create quantum particles
-            const particlesGeometry = new THREE.BufferGeometry();
-            const particleCount = 5000;
-
-            const posArray = new Float32Array(particleCount * 3);
-            const colorArray = new Float32Array(particleCount * 3);
-
-            for (let i = 0; i < particleCount * 3; i++) {
-                posArray[i] = (Math.random() - 0.5) * 10;
-                colorArray[i] = Math.random();
-            }
-
-            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-            particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-            const particlesMaterial = new THREE.PointsMaterial({
-                size: 0.05,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.8,
-                blending: THREE.AdditiveBlending
-            });
-
-            const particleMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-            scene.add(particleMesh);
-
-            // Animation loop
-            function animate() {
-                requestAnimationFrame(animate);
-
-                particleMesh.rotation.x += 0.0005;
-                particleMesh.rotation.y += 0.001;
-
-                renderer.render(scene, camera);
-            }
-
-            // Handle resize
-            function onWindowResize() {
-                camera.aspect = window.innerWidth / window.innerHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(window.innerWidth, window.innerHeight);
-            }
-
-            window.addEventListener('resize', onWindowResize);
-
-            // Start animation
-            animate();
-            onWindowResize();
         }
 
-        // Initialize everything when DOM loads
-        document.addEventListener('DOMContentLoaded', () => {
-            initQuantumBackground();
-
-            // Nav item interactions
+        // Function to set up navigation
+        function setupNavigation() {
             const navItems = document.querySelectorAll('.nav-item');
             navItems.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', function () {
+                    // Remove active class from all items
                     navItems.forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
 
-                    // Add futuristic sound effect
-                    const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-select-click-1109.mp3');
-                    audio.volume = 0.3;
-                    audio.play();
+                    // Add active class to clicked item
+                    this.classList.add('active');
+
+                    // Show corresponding section
+                    const section = this.getAttribute('data-section');
+                    showSection(section);
                 });
             });
+        }
 
-            // Quantum button effects
-            const quantumBtns = document.querySelectorAll('.quantum-btn');
-            quantumBtns.forEach(btn => {
-                btn.addEventListener('mouseenter', () => {
-                    btn.style.transform = 'translateY(-3px)';
-                });
-
-                btn.addEventListener('mouseleave', () => {
-                    btn.style.transform = 'translateY(0)';
-                });
+        // Function to show a specific section
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(sec => {
+                sec.style.display = 'none';
             });
 
-            // Neural input placeholder
-            const neuralInput = document.querySelector('.neural-input');
-            neuralInput.addEventListener('focus', function () {
-                if (this.textContent === '') {
-                    this.dataset.placeholder = '';
+            // Show selected section
+            document.getElementById(`${section}-section`).style.display = 'block';
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Function to generate a new quiz
+        function generateNewQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            quizContainer.innerHTML = '';
+
+            // Shuffle questions
+            const shuffledQuestions = [...quizQuestions].sort(() => 0.5 - Math.random());
+
+            shuffledQuestions.forEach((q, index) => {
+                const quizElement = document.createElement('div');
+                quizElement.className = 'quiz-container';
+                quizElement.innerHTML = `
+                    <div class="quiz-question">${index + 1}. ${q.question}</div>
+                    <div class="quiz-options">
+                        ${q.options.map((opt, i) => `
+                            <div class="quiz-option" data-correct="${i === q.answer}" 
+                                 onclick="checkAnswer(this, ${index})">
+                                ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="quiz-explanation" id="explanation-${index}" 
+                         style="display: none; margin-top: 1rem; color: var(--quantum-primary);">
+                        <i class="fas fa-info-circle"></i> ${q.explanation}
+                    </div>
+                `;
+                quizContainer.appendChild(quizElement);
+            });
+        }
+
+        // Function to check quiz answers
+        function checkAnswer(element, questionIndex) {
+            const isCorrect = element.getAttribute('data-correct') === 'true';
+            const options = element.parentElement.children;
+
+            // Disable all options
+            for (let i = 0; i < options.length; i++) {
+                options[i].style.pointerEvents = 'none';
+
+                // Mark correct answer
+                if (options[i].getAttribute('data-correct') === 'true') {
+                    options[i].classList.add('correct');
                 }
-            });
+            }
 
-            neuralInput.addEventListener('blur', function () {
-                if (this.textContent === '') {
-                    this.dataset.placeholder = 'Ask anything about CBSE Class 9 syllabus...';
-                }
-            });
-        });
+            // Mark selected answer
+            if (!isCorrect) {
+                element.classList.add('incorrect');
+            }
+
+            // Show explanation
+            document.getElementById(`explanation-${questionIndex}`).style.display = 'block';
+        }
+
+        // Function to generate worksheet
+        function generateWorksheet() {
+            const subject = document.getElementById('worksheet-subject').value;
+            const difficulty = document.getElementById('worksheet-difficulty').value;
+            const questions = worksheetQuestions[subject][difficulty];
+
+            const worksheetOutput = document.getElementById('worksheet-output');
+            worksheetOutput.innerHTML = `
+                <h3 style="color: var(--quantum-primary); margin-bottom: 1rem;">
+                    ${subject.charAt(0).toUpperCase() + subject.slice(1)} Worksheet (${difficulty})
+                </h3>
+                <ol style="margin-left: 1.5rem; line-height: 2;">
+                    ${questions.map(q => `<li>${q}</li>`).join('')}
+                </ol>
+            `;
+
+            // Show download button
+            document.getElementById('download-worksheet-btn').style.display = 'inline-block';
+        }
+
+        // Function to download worksheet as PDF
+        function downloadWorksheet() {
+            // In a real app, this would generate an actual PDF
+            alert('In a complete implementation, this would download a PDF worksheet. This is a demo.');
+        }
     </script>
 </body>
 
 </html>
-
-
-<!-- Quantum CBSE Class 9 Portal -->
-<!-- This HTML code creates a futuristic, interactive portal for CBSE Class 9 students, featuring a quantum theme with neon colors, holographic effects, and AI integration. -->
-<!-- The portal includes a navigation bar, a 3D background, hologram cards for subjects, and a neural interface for AI queries. -->
-<!-- The design is responsive and uses modern web technologies like Three.js for 3D effects and CSS animations for interactivity. -->
-<!-- Quantum CBSE Class 9 Portal -->
