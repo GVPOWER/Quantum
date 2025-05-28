@@ -4,12 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum CBSE Class 9 Portal</title>
-    <link rel="icon" href="favicon.png" type="image/x-icon"/>
-    <link rel="shortcut icon" href="favicon.png" type="image/x-icon"/>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap"
-        rel="stylesheet">
+    <title>Quantum Portal</title>
+    <link rel="icon" href="favicon.png" type="image/x-icon" />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
@@ -426,6 +425,165 @@
             margin-bottom: 1rem;
         }
 
+        input[type="text"] {
+            outline: none;
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            margin-bottom: 1rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.932);
+        }
+
+        input[type="text"]:focus {
+            border: 1px solid var(--quantum-primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        /* Quantum Upload Styles */
+        .quantum-upload-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(10, 10, 26, 0.5);
+            border-radius: 20px;
+            border: 1px solid var(--quantum-primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        .hologram-upload-dropzone {
+            padding: 3rem;
+            text-align: center;
+            border: 2px dashed rgba(0, 247, 255, 0.3);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hologram-upload-dropzone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(to bottom right,
+                    rgba(0, 247, 255, 0.1) 0%,
+                    rgba(255, 0, 228, 0.05) 50%,
+                    rgba(0, 247, 255, 0.1) 100%);
+            transform: rotate(30deg);
+            animation: hologramScan 6s linear infinite;
+        }
+
+        .hologram-upload-dropzone:hover {
+            border-color: var(--quantum-primary);
+            transform: translateY(-5px);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--quantum-primary);
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+        }
+
+        .quantum-link {
+            color: var(--quantum-accent);
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Progress Bar */
+        .quantum-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(0, 247, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--quantum-primary), var(--quantum-accent));
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            top: -1px;
+            opacity: 0;
+            animation: particleMove 2s linear infinite;
+            animation-delay: calc(var(--i) * 0.3s);
+        }
+
+        @keyframes particleMove {
+            0% {
+                left: 0%;
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            100% {
+                left: 100%;
+                opacity: 0;
+                transform: scale(0.5);
+            }
+        }
+
+        /* Upload Preview */
+        .quantum-uploads-preview {
+            margin-top: 2rem;
+        }
+
+        .uploaded-file {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(0, 247, 255, 0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--quantum-primary);
+        }
+
+        .file-icon {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: var(--quantum-primary);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .file-size {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         /* ========== Responsive Design ========== */
         @media (max-width: 768px) {
             .quantum-nav {
@@ -475,7 +633,7 @@
             <div class="nav-item" data-section="worksheets">WORKSHEETS</div>
         </div>
         <div class="user-avatar">
-            <i class="fas fa-user-astronaut"></i>
+            <i class="fas fa-user-astronaut" onclick="window.location.href='excuseus.html'"></i>
         </div>
     </nav>
 
@@ -521,27 +679,41 @@
                     <button class="quantum-btn" onclick="showSection('worksheets')">CREATE WORKSHEET</button>
                 </div>
                 <div class="hologram-card" id="worksheet-card">
-                    <div class="hologram-icon"><i class="fas fa-tasks"></i></div>
+                    <div class="hologram-icon"><i class="fa-solid fa-book"></i></div>
                     <h3>REFERENCE BOOKS</h3>
                     <p>Generate unlimited practice worksheets</p>
                     <button class="quantum-btn"
                         onclick="window.open('https://kumarsir34.wordpress.com/wp-content/uploads/2019/05/maths-class-ix-question-bank.pdf')">REFER
                         AND PRACTICE</button>
                 </div>
-                <div class="hologram-card" id="worksheet-card">
-                    <div class="hologram-icon"><i class="fas fa-tasks"></i></div>
-                    <h3>UPLOAD SOURCES!</h3>
-                    <p>Generate unlimited practice worksheets</p>
-                    <button class="quantum-btn">CONTRIBUTE</button>
-                </div>
 
-            </div>
+                <!-- Quantum Upload Zone -->
+                <div class="quantum-upload-container">
+                    <div class="hologram-upload-dropzone" id="dropzone">
+                        <i class="fas fa-atom upload-icon"></i>
+                        <h3>UPLOAD RESOURCES</h3>
+                        <p>Drag & drop files or <span class="quantum-link">browse</span></p>
+                        <input type="file" id="file-input" multiple style="display: none;">
+                        <div class="quantum-progress-bar" id="progress-bar">
+                            <div class="progress-fill"></div>
+                            <div class="particle" style="--i:1"></div>
+                            <div class="particle" style="--i:2"></div>
+                            <div class="particle" style="--i:3"></div>
+                        </div>
+                    </div>
+
+                    <!-- Uploaded Files Preview -->
+                    <div class="quantum-uploads-preview" id="uploads-preview"></div>
+                </div>
         </section>
 
         <!-- PYQs Section -->
         <section id="pyqs-section" class="content-section" style="display: none;">
             <h2 class="section-title"><i class="fas fa-file-alt"></i> PREVIOUS YEAR QUESTIONS</h2>
+            <input type="text" id="search-pyq" placeholder="Search PYQs...">
+
             <div class="pyq-grid" id="pyq-container">
+
                 <!-- PYQ cards will be dynamically inserted here -->
             </div>
         </section>
@@ -549,193 +721,10 @@
         <!-- Notes Section -->
         <section id="notes-section" class="content-section" style="display: none;">
             <h2 class="section-title"><i class="fas fa-book-open"></i> INTERACTIVE NOTES</h2>
-
-            <div class="audio-player">
-                <h3>Mathematics</h3>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-                <br>
-                <h4>Chapter 1: Number Systems</h4>
-                <p>Audio explanation of real numbers and their properties</p>
-                <audio id="math-audio" src="https://example.com/audio/number-systems.mp3"></audio>
-                <div class="player-controls">
-                    <div class="player-btn" onclick="document.getElementById('math-audio').play()">
-                        <i class="fas fa-play"></i>
-                    </div>
-                    <div class="player-btn" onclick="document.getElementById('math-audio').pause()">
-                        <i class="fas fa-pause"></i>
-                    </div>
-                    <div style="flex-grow: 1;">
-                        <input type="range" min="0" max="100" value="0" class="slider" id="math-audio-progress">
-                    </div>
-                </div>
-            </div>
-
             <div class="video-container" style="margin-top: 2rem;">
-                <h4>Science - Chapter 2: Matter Around Us</h4>
-                <p>Video explanation of states of matter</p>
+                <h4>Science - Chapter 1: Matters in Our Surroundings</h4>
+                <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                </p><br>
                 <div class="video-wrapper"
                     style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
                     <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
@@ -743,28 +732,333 @@
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>
                 </div>
-            </div>
+                <div class="video-container" style="margin-top: 2rem;">
+                    <h4>Science - Chapter 2: Is Matter around us pure?</h4>
+                    <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                    </p><br>
+                    <div class="video-wrapper"
+                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <iframe
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen></iframe>
+                    </div>
+                    <div class="video-container" style="margin-top: 2rem;">
+                        <h4>Science - Chapter 3: Atoms and molecules</h4>
+                        <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                        </p><br>
+                        <div class="video-wrapper"
+                            style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                            <iframe
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                        <div class="video-container" style="margin-top: 2rem;">
+                            <h4>Science - Chapter 4: Structure of atoms</h4>
+                            <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                            </p><br>
+                            <div class="video-wrapper"
+                                style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                <iframe
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="video-container" style="margin-top: 2rem;">
+                                <h4>Science - Chapter 5: The Fundamental unit of life</h4>
+                                <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                </p><br>
+                                <div class="video-wrapper"
+                                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                    <iframe
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowfullscreen></iframe>
+                                </div>
+                                <div class="video-container" style="margin-top: 2rem;">
+                                    <h4>Science - Chapter 6: Tissues</h4>
+                                    <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                    </p><br>
+                                    <div class="video-wrapper"
+                                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                        <iframe
+                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen></iframe>
+                                    </div>
+                                    <div class="video-container" style="margin-top: 2rem;">
+                                        <h4>Science - Chapter 7: <i>Diversity in living organisms - This chapter was
+                                                part of older editions and might be reduced or excluded in recent
+                                                rationalized syllabus.
 
-            <div style="margin-top: 2rem;">
-                <h4>Download PDF Notes</h4>
-                <div class="pyq-grid">
-                    <div class="pyq-card">
-                        <h4>Mathematics Complete Notes</h4>
-                        <p>All chapters in one PDF</p>
-                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;"
-                            onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                    </div>
-                    <div class="pyq-card">
-                        <h4>Science Diagrams</h4>
-                        <p>Important diagrams for Biology</p>
-                        <button class="quantum-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
-                            <i class="fas fa-download"></i> Download
-                        </button>
-                    </div>
-                </div>
-            </div>
+                                            </i></h4>
+                                        <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                        </p><br>
+                                        <div class="video-wrapper"
+                                            style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                            <iframe
+                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen></iframe>
+                                        </div>
+                                        <div class="video-container" style="margin-top: 2rem;">
+                                            <h4>Science - Chapter 8: Motion</h4>
+                                            <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                            </p><br>
+                                            <div class="video-wrapper"
+                                                style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                <iframe
+                                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowfullscreen></iframe>
+                                            </div>
+                                            <div class="video-container" style="margin-top: 2rem;">
+                                                <h4>Science - Chapter 9: Force and Laws of Motion</h4>
+                                                <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                                </p><br>
+                                                <div class="video-wrapper"
+                                                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                    <iframe
+                                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                        src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                        allowfullscreen></iframe>
+                                                </div>
+                                                <div class="video-container" style="margin-top: 2rem;">
+                                                    <h4>Science - Chapter 10: Gravitation</h4>
+                                                    <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                                    </p><br>
+                                                    <div class="video-wrapper"
+                                                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                        <iframe
+                                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                            frameborder="0"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                            allowfullscreen></iframe>
+                                                    </div>
+                                                    <div class="video-container" style="margin-top: 2rem;">
+                                                        <h4>Science - Chapter 11: Work and Energy</h4>
+                                                        <p style="text-indent: 15px;">- Enjoy the the video explanation!
+                                                        </p><br>
+                                                        <div class="video-wrapper"
+                                                            style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                            <iframe
+                                                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                                frameborder="0"
+                                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                allowfullscreen></iframe>
+                                                        </div>
+                                                        <div class="video-container" style="margin-top: 2rem;">
+                                                            <h4>Science - Chapter 12: Sound</h4>
+                                                            <p style="text-indent: 15px;">- Enjoy the the video
+                                                                explanation!
+                                                            </p><br>
+                                                            <div class="video-wrapper"
+                                                                style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                                <iframe
+                                                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                                    frameborder="0"
+                                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                    allowfullscreen></iframe>
+                                                            </div>
+                                                            <div class="video-container" style="margin-top: 2rem;">
+                                                                <h4>Science - Chapter 13: Why Do We Fall Ill?</h4>
+                                                                <p style="text-indent: 15px;">- Enjoy the the video
+                                                                    explanation!
+                                                                </p><br>
+                                                                <div class="video-wrapper"
+                                                                    style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                                    <iframe
+                                                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                                        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                                        frameborder="0"
+                                                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                        allowfullscreen></iframe>
+                                                                </div>
+                                                                <div class="video-container" style="margin-top: 2rem;">
+                                                                    <h4>Science - Chapter 14: (Natural Resources) - May
+                                                                        be removed or reduced as per rationalized
+                                                                        content.</h4>
+                                                                    <p style="text-indent: 15px;">- Enjoy the the video
+                                                                        explanation!
+                                                                    </p><br>
+                                                                    <div class="video-wrapper"
+                                                                        style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                                                        <iframe
+                                                                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 8px;"
+                                                                            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                                            frameborder="0"
+                                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                                            allowfullscreen></iframe>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <div style="margin-top: 2rem;">
+                                                                    <h4>Download PDF Notes</h4><br>
+                                                                    <div class="pyq-grid">
+                                                                        <div class="pyq-card">
+                                                                            <h4>Mathematics Complete Notes</h4>
+                                                                            <p>Enjoy solving!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Science Complete Notes (Physics)</h4>
+                                                                            <p>Enjoy learning and practicing!
+                                                                            </p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Science Notes (Chemistry)</h4>
+                                                                            <p>Enjoy the matter!
+                                                                            </p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Science Complete Notes (Biology)</h4>
+                                                                            <p>Enjoy learning and practicing!
+                                                                            </p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Science Diagrams</h4>
+                                                                            <p>Enjoy practicing important diagrams for
+                                                                                Biology
+                                                                            </p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Science (Formula sheet)</h4>
+                                                                            <p>Thoroughly enjoy reading and practicing!
+                                                                            </p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Social Science Complete Notes
+                                                                                (History)</h4>
+                                                                            </h4>
+                                                                            <p>Enjoy learning!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Social Science Complete Notes
+                                                                                (Geography)</h4>
+                                                                            </h4>
+                                                                            <p>Enjoy learning!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Social Science Complete Notes
+                                                                                (Politcal Science)</h4>
+                                                                            </h4>
+                                                                            <p>Enjoy learning!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>Social Science Complete Notes
+                                                                                (Economics)</h4>
+                                                                            </h4>
+                                                                            <p>Enjoy learning!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>English Complete Notes
+                                                                                (Literature)</h4>
+                                                                            <p>Enjoy reading literature!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>English Complete Notes (Grammar
+                                                                                and Writing
+                                                                                skills)</h4>
+                                                                            <p>Enjoy reading literature!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="pyq-card">
+                                                                            <h4>English Complete Notes (Reading
+                                                                                skills)</h4>
+                                                                            <p>Enjoy reading literature!</p>
+                                                                            <button class="quantum-btn"
+                                                                                style="padding: 0.5rem 1rem; font-size: 0.9rem;"
+                                                                                onclick="window.open('https://example.com/notes/math-complete.pdf', '_blank')">
+                                                                                <i class="fas fa-download"></i>
+                                                                                Download
+                                                                            </button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
         </section>
 
         <!-- Quizzes Section -->
@@ -830,7 +1124,6 @@
             </div>
         </section>
     </div>
-
     <script>
         // Sample PYQ Data (in real app, fetch from API)
         const pyqData = [
@@ -1959,7 +2252,11 @@
             // In a real app, this would generate an actual PDF
             alert('In a complete implementation, this would download a PDF worksheet. This is a demo.');
         }
+
+
+
     </script>
+
 </body>
 
 </html>
