@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Firebase Auth Login Test</title>
+    <style>
+        /* Quantum Login Styles */
+        .quantum-login-container {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .quantum-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .hologram-login-card {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            background: rgba(10, 10, 26, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem 2.5rem;
+            z-index: 1;
+            box-shadow: 0 0 30px rgba(0, 247, 255, 0.1);
+            animation: hologramFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes hologramFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateX(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotateX(5deg);
+            }
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .login-header h2 {
+            font-family: var(--font-heading);
+            color: var(--quantum-primary);
+            margin: 1rem 0 0.5rem;
+            letter-spacing: 2px;
+        }
+
+        .login-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+        }
+
+        .quantum-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--quantum-primary);
+            font-size: 1.1rem;
+        }
+
+        .input-underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--quantum-primary);
+            transition: width 0.4s ease;
+        }
+
+        .quantum-form input {
+            width: 400px;
+            padding: 1rem 1rem 1rem 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 247, 255, 0.1);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-body);
+            transition: all 0.3s ease;
+        }
+
+        .quantum-form input:focus {
+            outline: none;
+            border-color: var(--quantum-primary);
+            box-shadow: var(--glow-primary);
+        }
+
+        .quantum-form input::placeholder {
+            color: rgb(243, 243, 243);
+        }
+
+        .quantum-form input:focus+.input-underline {
+            width: 100%;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-password:hover {
+            color: var(--quantum-primary);
+        }
+
+        .login-btn {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .btn-loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-loader .particle {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: particlePulse 1.4s infinite ease-in-out;
+        }
+
+        .btn-loader .particle:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .btn-loader .particle:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes particlePulse {
+
+            0%,
+            100% {
+                transform: scale(0.3);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .login-btn.loading .btn-text {
+            opacity: 0;
+        }
+
+        .login-btn.loading .btn-loader {
+            opacity: 1;
+        }
+
+        .login-links {
+            display: flex;
+            justify-content: space-between;
+            margin-top: -0.5rem;
+        }
+
+        .quantum-link {
+            color: var(--quantum-accent);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .quantum-link:hover {
+            text-shadow: var(--glow-accent);
+        }
+
+        .login-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(0, 247, 255, 0.2);
+        }
+
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0.8rem;
+            border-radius: 50px;
+            border: none;
+            font-family: var(--font-body);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn {
+            background: #4285F4;
+            color: white;
+        }
+
+        .github-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.95rem;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Quantum Login Portal -->
+    <section id="login-section" class="content-section">
+        <div class="quantum-login-container">
+            <!-- Holographic Particle Background -->
+            <div class="quantum-particles" id="particles-js"></div>
+
+            <!-- Main Login Card -->
+            <div class="hologram-login-card">
+                <div class="login-header">
+                    <div class="nav-logo">⚛️ QUANTUM PORTAL</div>
+                    <h2>STUDENT AUTHENTICATION</h2>
+                    <p>Enter your credentials to access the quantum learning matrix</p>
+                </div>
+
+                <form id="loginForm" class="quantum-form">
+                    <div class="input-group">
+                        <i class="fas fa-user-astronaut input-icon"></i>
+                        <input type="email" id="email" required placeholder="Quantum ID (Email)">
+                        <div class="input-underline"></div>
+                    </div>
+
+                    <div class="input-group">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" required placeholder="Encryption Key (Password)">
+                        <div class="input-underline"></div>
+                        <button type="button" class="toggle-password" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <button type="submit" class="quantum-btn login-btn" id="loginBtn">
+                        <span class="btn-text">INITIALIZE SESSION</span>
+                        <div class="btn-loader">
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                            <div class="particle"></div>
+                        </div>
+                    </button>
+                    <p id="status"></p>
+
+                    <div class="login-links">
+                        <a href="#" class="quantum-link">Forgot Encryption Key?</a>
+                        <a href="#" class="quantum-link">Request Quantum ID</a>
+                    </div>
+                </form>
+
+                <div class="login-divider">
+                    <div class="divider-line"></div>
+                    <span>OR</span>
+                    <div class="divider-line"></div>
+                </div>
+
+                <div class="social-login">
+                    <button class="social-btn google-btn">
+                        <i class="fab fa-google"></i> Continue with Google
+                    </button>
+                    <button class="social-btn github-btn">
+                        <i class="fab fa-github"></i> Continue with GitHub
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="login-footer">
+                <p>New to Quantum Portal? <a href="#" class="quantum-link">Create ID</a></p>
+            </div>
+        </div>
+    </section>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAzWj4ncln3foKVkfo5cT_keoAUCtA5On0",
+            authDomain: "quantum-upload.firebaseapp.com",
+            projectId: "quantum-upload",
+            storageBucket: "quantum-upload.firebasestorage.app",
+            messagingSenderId: "843400107364",
+            appId: "1:843400107364:web:ba2e6b3d4712a2c3009671",
+            measurementId: "G-YJKLTV9P2T"
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Elements
+        const loginBtn = document.getElementById("loginBtn");
+        const status = document.getElementById("status");
+
+        loginBtn.addEventListener("click", () => {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then(() => {
+                    // Redirect to user homepage
+                    window.location.href = "index.html";
+                })
+                .catch((error) => {
+                    status.textContent = `❌ I'm sorry, but you can't teleport!: ${error.message}`;
+                });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
