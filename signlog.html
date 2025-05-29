@@ -2,351 +2,410 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Firebase Auth Login Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Access Portal</title>
     <style>
-        /* Quantum Login Styles */
-        .quantum-login-container {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            overflow: hidden;
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@400;600&display=swap');
+
+        :root {
+            /* Quantum Color Palette */
+            --quantum-primary: #00f7ff;
+            --quantum-secondary: #ff00e4;
+            --quantum-accent: #00ff87;
+            --quantum-dark: #0a0a1a;
+            --quantum-darker: #050510;
+            --quantum-bg: radial-gradient(ellipse at bottom, var(--quantum-darker) 0%, var(--quantum-dark) 100%);
+
+            /* Neon Glow Effects */
+            --glow-primary: 0 0 10px var(--quantum-primary), 0 0 20px rgba(0, 247, 255, 0.3);
+            --glow-secondary: 0 0 10px var(--quantum-secondary), 0 0 20px rgba(255, 0, 228, 0.3);
+            --glow-accent: 0 0 10px var(--quantum-accent), 0 0 20px rgba(0, 255, 135, 0.3);
+
+            /* Futuristic Fonts */
+            --font-heading: 'Orbitron', sans-serif;
+            --font-body: 'Rajdhani', sans-serif;
         }
 
-        .quantum-particles {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 0;
-        }
-
-        .hologram-login-card {
-            position: relative;
-            width: 100%;
-            max-width: 450px;
-            background: rgba(10, 10, 26, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 247, 255, 0.2);
-            border-radius: 20px;
-            padding: 3rem 2.5rem;
-            z-index: 1;
-            box-shadow: 0 0 30px rgba(0, 247, 255, 0.1);
-            animation: hologramFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes hologramFloat {
-
-            0%,
-            100% {
-                transform: translateY(0) rotateX(0deg);
-            }
-
-            50% {
-                transform: translateY(-20px) rotateX(5deg);
-            }
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .login-header h2 {
-            font-family: var(--font-heading);
-            color: var(--quantum-primary);
-            margin: 1rem 0 0.5rem;
-            letter-spacing: 2px;
-        }
-
-        .login-header p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.95rem;
-        }
-
-        .quantum-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.8rem;
-        }
-
-        .input-group {
-            position: relative;
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--quantum-primary);
-            font-size: 1.1rem;
-        }
-
-        .input-underline {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--quantum-primary);
-            transition: width 0.4s ease;
-        }
-
-        .quantum-form input {
-            width: 400px;
-            padding: 1rem 1rem 1rem 3rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(0, 247, 255, 0.1);
-            border-radius: 8px;
-            color: white;
+        body {
+            margin: 0;
+            padding: 0;
             font-family: var(--font-body);
-            transition: all 0.3s ease;
-        }
-
-        .quantum-form input:focus {
-            outline: none;
-            border-color: var(--quantum-primary);
-            box-shadow: var(--glow-primary);
-        }
-
-        .quantum-form input::placeholder {
-            color: rgb(243, 243, 243);
-        }
-
-        .quantum-form input:focus+.input-underline {
-            width: 100%;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.5);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .toggle-password:hover {
-            color: var(--quantum-primary);
-        }
-
-        .login-btn {
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-            margin-top: 1rem;
-        }
-
-        .btn-loader {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            background: var(--quantum-bg);
+            color: white;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            overflow: hidden;
         }
 
-        .btn-loader .particle {
-            width: 8px;
-            height: 8px;
-            background: white;
-            border-radius: 50%;
-            animation: particlePulse 1.4s infinite ease-in-out;
+        .quantum-portal {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            width: 400px;
+            padding: 40px;
+            background: var(--quantum-bg);
+            border-radius: 8px;
+            box-shadow: var(--glow-primary),
+                var(--glow-secondary);
+            z-index: 10;
+            border: 1px solid rgb(175, 175, 175);
+            backdrop-filter: blur(5px);
+            transform-style: preserve-3d;
+            perspective: 1000px;
         }
 
-        .btn-loader .particle:nth-child(2) {
-            animation-delay: 0.2s;
+        .quantum-portal::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--quantum-bg);
+            z-index: -1;
+            border-radius: 10px;
+            animation: quantum-pulse 4s linear infinite;
+            opacity: 0.7;
+            filter: blur(5px);
         }
 
-        .btn-loader .particle:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes particlePulse {
-
-            0%,
-            100% {
-                transform: scale(0.3);
+        @keyframes quantum-pulse {
+            0% {
                 opacity: 0.5;
             }
 
             50% {
-                transform: scale(1);
-                opacity: 1;
+                opacity: 0.9;
+            }
+
+            100% {
+                opacity: 0.5;
             }
         }
 
-        .login-btn.loading .btn-text {
-            opacity: 0;
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--quantum-primary);
+            font-family: var(--font-heading);
+            text-shadow: var(--glow-primary);
+            letter-spacing: 3px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--quantum-primary), var(--quantum-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: 1.8rem;
         }
 
-        .login-btn.loading .btn-loader {
+        .input-field {
+            margin-bottom: 25px;
+            margin-right: 32px;
+            position: relative;
+        }
+
+        .input-field input[type=email],
+        .input-field input[type=password] {
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-bottom: 2px solid #00f7ff;
+            color: rgb(255, 255, 255);
+            font-family: var(--font-body);
+            background-color: var(--quantum-dark);
+            font-size: 23px;
+            font-weight: 400;
+            outline: none;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .input-field input[type=email]:focus,
+        .input-field input[type=password]:focus {
+            border-color: var(--quantum-primary);
+            box-shadow: 0 0 10px var(--quantum-primary), 0 0 20px rgba(0, 247, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .input-field input:focus {
+            transform: translateY(-2px);
+            background-color: black;
+        }
+
+        .input-field label {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 20px;
+            pointer-events: none;
+            background: var(--quantum-dark);
+            padding: 0 10px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            font-family: var(--font-body);
+            font-weight: 400;
+        }
+
+        .input-field input:focus+label,
+        .input-field input:valid+label {
+            top: -10px;
+            left: 10px;
+            font-size: 18px;
+            background: var(--quantum-dark);
+            padding: 0 20px;
+            text-shadow: var(--glow-accent);
+            color: white;
+        }
+
+        .quantum-btn {
+            background: linear-gradient(135deg, var(--quantum-primary), var(--quantum-accent));
+            border: none;
+            color: white;
+            padding: 0.5rem 9.734rem;
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            border-radius: 0px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            box-shadow: var(--glow-accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+            display: flex;
+            margin-bottom: 50px;
+            justify-content: center;
+        }
+
+        .quantum-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--quantum-accent), var(--quantum-primary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .quantum-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 135, 0.5);
+        }
+
+        .quantum-btn:hover::before {
             opacity: 1;
         }
 
-        .login-links {
+        .portal-links {
             display: flex;
             justify-content: space-between;
-            margin-top: -0.5rem;
+            margin-top: 25px;
         }
 
-        .quantum-link {
-            color: var(--quantum-accent);
+        .portal-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: var(--glow-primary);
             text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .quantum-link:hover {
-            text-shadow: var(--glow-accent);
-        }
-
-        .login-divider {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin: 1.5rem 0;
-            color: rgba(255, 255, 255, 0.3);
-        }
-
-        .divider-line {
-            flex: 1;
-            height: 1px;
-            background: rgba(0, 247, 255, 0.2);
-        }
-
-        .social-login {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .social-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 0.8rem;
-            border-radius: 50px;
-            border: none;
+            font-size: 17px;
+            transition: all 0.3s;
             font-family: var(--font-body);
-            font-weight: 600;
-            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .portal-links a:hover {
+            color: var(--quantum-secondary);
+            text-decoration: underline;
+            text-decoration-color: var(--quantum-secondary);
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 800;
+            background: var(--quantum-dark);
+            padding: 2px 5px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px var(--quantum-secondary);
             transition: all 0.3s ease;
-        }
-
-        .google-btn {
-            background: #4285F4;
+            font-size: 18px;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             color: white;
+
+            background: linear-gradient(135deg, var(--quantum-secondary), var(--quantum-primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: none;
+            box-shadow: none;
+            text-decoration: none;
+
+            text-shadow: 0 0 5px var(--quantum-secondary),
+                0 0 10px rgba(255, 0, 228, 0.3);
+            text-shadow: 0 0 5px var(--quantum-secondary),
+
+
+                0 0 10px rgba(0, 247, 255, 0.3);
+            text-shadow: 0 0 5px var(--quantum-secondary),
+                0 0 10px rgba(0, 255, 135, 0.3);
+            text-shadow: 0 0 5px var(--quantum-secondary),
+                0 0 10px rgba(255, 0, 228, 0.3),
+                0 0 15px rgba(0, 247, 255, 0.3),
+                0 0 20px rgba(0, 255, 135, 0.3);
+            text-shadow: 0 0 5px var(--quantum-secondary),
+                0 0 10px rgba(255, 0, 228, 0.3),
+                0 0 15px rgba(0, 247, 255, 0.3),
+                0 0 20px rgba(0, 255, 135, 0.3);
+            text-shadow: var(--glow-secondary);
         }
 
-        .github-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .social-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 2rem;
-            color: rgba(0, 0, 0, 0.6);
-            font-size: 0.95rem;
+        .quantum-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--quantum-primary);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: quantum-float linear infinite;
+        }
+
+        @keyframes quantum-float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-20vh) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        /* Cyberpunk scanline effect */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                    transparent 95%,
+                    rgba(0, 247, 255, 0.05) 96%,
+                    transparent 97%);
+            background-size: 100% 5px;
+            pointer-events: none;
+            z-index: 100;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 100vh;
+            }
         }
     </style>
 </head>
 
 <body>
+    <div class="quantum-particles" id="quantumParticles"></div>
+    <div class="scanlines"></div>
 
-    <!-- Quantum Login Portal -->
-    <section id="login-section" class="content-section">
-        <div class="quantum-login-container">
-            <!-- Holographic Particle Background -->
-            <div class="quantum-particles" id="particles-js"></div>
+    <div class="quantum-portal">
+        <h1>Quantum Access</h1>
 
-            <!-- Main Login Card -->
-            <div class="hologram-login-card">
-                <div class="login-header">
-                    <div class="nav-logo">⚛️ QUANTUM PORTAL</div>
-                    <h2>STUDENT AUTHENTICATION</h2>
-                    <p>Enter your credentials to access the quantum learning matrix</p>
-                </div>
-
-                <form id="loginForm" class="quantum-form">
-                    <div class="input-group">
-                        <i class="fas fa-user-astronaut input-icon"></i>
-                        <input type="email" id="email" required placeholder="Quantum ID (Email)">
-                        <div class="input-underline"></div>
-                    </div>
-
-                    <div class="input-group">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="password" required placeholder="Encryption Key (Password)">
-                        <div class="input-underline"></div>
-                        <button type="button" class="toggle-password" onclick="togglePassword()">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-
-                    <button type="submit" class="quantum-btn login-btn" id="loginBtn">
-                        <span class="btn-text">INITIALIZE SESSION</span>
-                        <div class="btn-loader">
-                            <div class="particle"></div>
-                            <div class="particle"></div>
-                            <div class="particle"></div>
-                        </div>
-                    </button>
-                    <p id="status"></p>
-
-                    <div class="login-links">
-                        <a href="#" class="quantum-link">Forgot Encryption Key?</a>
-                        <a href="#" class="quantum-link">Request Quantum ID</a>
-                    </div>
-                </form>
-
-                <div class="login-divider">
-                    <div class="divider-line"></div>
-                    <span>OR</span>
-                    <div class="divider-line"></div>
-                </div>
-
-                <div class="social-login">
-                    <button class="social-btn google-btn">
-                        <i class="fab fa-google"></i> Continue with Google
-                    </button>
-                    <button class="social-btn github-btn">
-                        <i class="fab fa-github"></i> Continue with GitHub
-                    </button>
-                </div>
+        <form>
+            <div class="input-field">
+                <input type="email" id="email" required placeholder="">
+                <label for="quantumUser">Operator ID</label>
             </div>
 
-
-            <div class="login-footer">
-                <p>New to Quantum Portal? <a href="#" class="quantum-link">Create ID</a></p>
+            <div class="input-field">
+                <input type="password" id="password" required placeholder="">
+                <label for="quantumKey">Encryption Key</label>
             </div>
-        </div>
-    </section>
+
+            <button type="submit" class="quantum-btn" id="loginBtn">Initiate Sequence</button>
+            <p id="status"></p>
+
+
+            <div class="portal-links">
+                <a href="#">Request Access</a>
+                <a href="#">Recover It!</a>
+            </div>
+        </form>
+    </div>
+
     <script type="module">
+        // Quantum particle system
+        const particleContainer = document.getElementById('quantumParticles');
+        const colors = ['#00f7ff', '#ff00e4', '#00ff87'];
+
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            // Quantum randomness
+            const size = Math.random() * 4 + 1;
+            const posX = Math.random() * window.innerWidth;
+            const duration = Math.random() * 15 + 10;
+            const delay = Math.random() * 15;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const blur = Math.random() * 2 + 0.5;
+
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${posX}px`;
+            particle.style.bottom = `-10px`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${delay}s`;
+            particle.style.background = color;
+            particle.style.filter = `blur(${blur}px)`;
+
+            particleContainer.appendChild(particle);
+        }
+
+        // Add interactive glow effect
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function () {
+                this.style.boxShadow = `0 0 15px ${this.id.includes('Key') ? 'var(--quantum-accent)' : 'var(--quantum-primary)'}`;
+            });
+
+            input.addEventListener('blur', function () {
+                this.style.boxShadow = 'none';
+            });
+        });
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
 
@@ -383,9 +442,84 @@
                 });
 
         });
-
     </script>
-
 </body>
 
 </html>
+
+
+<!-- .hologram-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin: 3rem 0;
+}
+
+.hologram-card {
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(12px);
+border: 1px solid rgba(0, 247, 255, 0.1);
+border-radius: 20px;
+padding: 2rem;
+transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+position: relative;
+overflow: hidden;
+min-height: 300px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+}
+
+.hologram-card::before {
+content: '';
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: linear-gradient(to bottom right,
+rgba(0, 247, 255, 0.1) 0%,
+rgba(255, 0, 228, 0.05) 50%,
+rgba(0, 247, 255, 0.1) 100%);
+transform: rotate(30deg);
+z-index: -1;
+animation: hologramScan 6s linear infinite;
+}
+
+@keyframes hologramScan {
+0% {
+transform: translateY(-100%) rotate(30deg);
+}
+
+100% {
+transform: translateY(100%) rotate(30deg);
+}
+}
+
+.hologram-card:hover {
+transform: translateY(-10px) rotateX(5deg);
+box-shadow: var(--glow-primary);
+border-color: rgba(0, 247, 255, 0.3);
+}
+
+.hologram-card h3 {
+font-family: var(--font-heading);
+font-size: 1.8rem;
+margin-bottom: 1.5rem;
+color: var(--quantum-primary);
+letter-spacing: 1px;
+}
+
+.hologram-icon {
+font-size: 3.5rem;
+margin-bottom: 1.5rem;
+text-shadow: var(--glow-primary);
+}
+
+.hologram-card p {
+color: rgba(255, 255, 255, 0.7);
+line-height: 1.6;
+margin-bottom: 2rem;
+} -->
